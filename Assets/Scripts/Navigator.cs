@@ -14,6 +14,8 @@ public class Navigator : MonoBehaviour {
     public GameObject panelPremios;
     public GameObject panelBeertender;
     public GameObject panelContacto;
+    public GameObject panelHome;
+
 
     public void TurnOffAll()
     {
@@ -25,6 +27,7 @@ public class Navigator : MonoBehaviour {
         panelPremios.SetActive(false);
         panelBeertender.SetActive(false);
         panelContacto.SetActive(false);
+        panelHome.SetActive(false);
     }
 
     public void BTN_Ranking()
@@ -52,6 +55,10 @@ public class Navigator : MonoBehaviour {
         panelContacto.SetActive(true);
     }
 
+    public void BTN_Home()
+    {
+        panelHome.SetActive(true);
+    }
 
 
 }
