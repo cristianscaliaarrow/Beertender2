@@ -8,9 +8,17 @@ public class Premios : MonoBehaviour {
     public GameObject panelManager;
     public GameObject panelOwner;
 
-    public void BTN_ShowPremios(Rol rol)
+    private void OnDisable()
     {
-        switch (rol)
+        panelStaff.SetActive(false);
+        panelManager.SetActive(false);
+        panelOwner.SetActive(false);
+
+    }
+
+    public void BTN_ShowPremios()
+    {
+        switch (User.instance.rol)
         {
             case Rol.STAFF:
                 panelStaff.SetActive(true);
@@ -25,7 +33,7 @@ public class Premios : MonoBehaviour {
     }
 }
 
-
+[System.Serializable]
 public enum Rol
 {
     STAFF,MANAGER,OWNER
