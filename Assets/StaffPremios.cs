@@ -13,6 +13,14 @@ public class StaffPremios : MonoBehaviour {
         LoadPrices();
     }
 
+    private void OnDisable()
+    {
+        foreach (Transform item in panelLayout.transform)
+        {
+            Destroy(item.gameObject);
+        }
+    }
+
     private void LoadPrices()
     {
         foreach (var item in premios)
