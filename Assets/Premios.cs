@@ -31,6 +31,12 @@ public class Premios : MonoBehaviour {
                 break;
         }
     }
+
+    public void BTN_ShowPremiosStaff()
+    {
+        gameObject.SetActive(true);
+        panelStaff.SetActive(true);
+    }
 }
 
 [System.Serializable]
