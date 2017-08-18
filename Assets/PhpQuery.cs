@@ -25,7 +25,9 @@ public class PhpQuery : MonoBehaviour {
 
     private static IEnumerator StartQuery(string query,CallBackResult callBack)
     {
-        WWW www = new WWW(query);
+        var headers = new Dictionary<string,string>();
+        headers.Add("Authorization", "Bearer "+User.authorization);
+        WWW www = new WWW(query,null,headers);
         yield return www;
         if(www.error != null)
         {

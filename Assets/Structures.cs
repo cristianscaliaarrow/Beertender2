@@ -10,6 +10,7 @@ public class JsonParser<T>
 public class User
 {
     public static User instance;
+    public static int authorization;
     public int id;
     public string firstName;
     public string lastName;
