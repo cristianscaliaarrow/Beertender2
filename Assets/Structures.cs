@@ -47,8 +47,22 @@ public class Error
     public string moreInfo; 
 }
 
-public class UserList
+[System.Serializable]
+public class PrizeStaff
 {
-
+    public int id;
+    public string description;
+    public string name;
+    public string img_url;
+    public int pts_cost;
+    public int catagoloID;
+    public int SKU;
+    public int enabled;
+    public int stock;
 }
 
+[System.Serializable]
+public enum Rol
+{
+    OWNER = 1, MANAGER, STAFF
+}

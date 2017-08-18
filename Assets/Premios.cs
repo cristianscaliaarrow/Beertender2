@@ -39,8 +39,3 @@ public class Premios : MonoBehaviour {
     }
 }
 
-[System.Serializable]
-public enum Rol
-{
-    STAFF =1,MANAGER,OWNER
-}
