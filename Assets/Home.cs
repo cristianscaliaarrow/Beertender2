@@ -16,7 +16,6 @@ public class Home : MonoBehaviour {
     public GameObject home;
     private void OnEnable()
     {
-        print("ASD");
         home.SetActive(false);
     }
 
@@ -30,14 +29,14 @@ public class Home : MonoBehaviour {
     {
         switch (User.instance.rol)
         {
-            case Rol.STAFF:
+            case (int)Rol.STAFF:
                 panelStaff.SetActive(true);
                 panelOwnerManager.SetActive(false);
                 background.sprite = StaffBackgroundImage;
 
                 break;
-            case Rol.MANAGER:
-            case Rol.OWNER:
+            case (int)Rol.MANAGER:
+            case (int)Rol.OWNER:
                 panelStaff.SetActive(false);
                 panelOwnerManager.SetActive(true);
                 background.sprite = ownerManagerBackgroundImage;

@@ -20,13 +20,13 @@ public class Premios : MonoBehaviour {
     {
         switch (User.instance.rol)
         {
-            case Rol.STAFF:
+            case (int)Rol.STAFF:
                 panelStaff.SetActive(true);
                 break;
-            case Rol.MANAGER:
+            case (int)Rol.MANAGER:
                 panelManager.SetActive(true);
                 break;
-            case Rol.OWNER:
+            case (int)Rol.OWNER:
                 panelOwner.SetActive(true);
                 break;
         }
@@ -42,5 +42,5 @@ public class Premios : MonoBehaviour {
 [System.Serializable]
 public enum Rol
 {
-    STAFF,MANAGER,OWNER
+    STAFF =1,MANAGER,OWNER
 }

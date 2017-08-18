@@ -25,13 +25,13 @@ public class Beertender : MonoBehaviour {
         panelConoceMarca.SetActive(false);
         switch (User.instance.rol)
         {
-            case Rol.STAFF:
+            case (int)Rol.STAFF:
                 staff.SetActive(true);
                 break;
-            case Rol.MANAGER:
+            case (int)Rol.MANAGER:
                 ownerManager.SetActive(true);
                 break;
-            case Rol.OWNER:
+            case (int)Rol.OWNER:
                 ownerManager.SetActive(true);
                 break;
         }
