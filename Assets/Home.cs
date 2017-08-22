@@ -14,6 +14,7 @@ public class Home : MonoBehaviour {
     public GameObject panelOwnerManager;
 
     public GameObject home;
+
     private void OnEnable()
     {
         home.SetActive(false);

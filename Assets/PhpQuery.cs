@@ -12,16 +12,30 @@ public class PhpQuery : MonoBehaviour {
         instance = this;
     }
 
+    #region "Users"
     public static void GetUsers(CallBackResult callBack)
     {
-        instance.StartCoroutine(StartQuery("http://apibeer.000webhostapp.com/static/users.json", callBack));
+        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/users", callBack));
     }
 
     public static void GetUser(int id , CallBackResult callBack)
     {
-        instance.StartCoroutine(StartQuery("http://apibeer.000webhostapp.com/static/users/"+id+".json", callBack));
+        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/users/" + id, callBack));
+    }
+    #endregion
+
+    #region "Shops"
+    public static void GetShops(CallBackResult callBack)
+    {
+        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/shops", callBack));
     }
 
+    public static void GetShop(int id, CallBackResult callBack)
+    {
+        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/shops/" + id, callBack));
+    }
+
+    #endregion
 
     private static IEnumerator StartQuery(string query,CallBackResult callBack)
     {

@@ -1,8 +1,15 @@
 ﻿
+using UnityEngine;
+
 [System.Serializable]
 public class JsonParser<T>
 {
     public T data;
+
+    public static T GetObject(string str)
+    {
+        return JsonUtility.FromJson<JsonParser<T>>(str).data;
+    } 
 }
 
 
@@ -67,3 +74,16 @@ public enum Rol
 {
     OWNER = 1, MANAGER, STAFF
 }
+
+[System.Serializable]
+public class Shop
+{
+    public int id;
+    public string name;
+    public int idPM;
+    public string img_url;
+    public int objVolumen;
+    public int objDisponibilidad;
+    public int total_pts;
+}
+
