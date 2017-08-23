@@ -17,7 +17,7 @@ public class JsonParser<T>
 public class User
 {
     public static User instance;
-    public static int authorization;
+    public static string authorization = "2341ebbb630cda9b7342a947c95b5499";
     public int id;
     public string firstName;
     public string lastName;

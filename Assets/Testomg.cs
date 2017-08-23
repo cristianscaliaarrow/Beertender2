@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class Testomg : MonoBehaviour {
 
+    public List<Shop> list;
 	void Start () {
-        PhpQuery.GetShops(OnReceive);
+        //PhpQuery.GetShops(OnReceive);
+        PhpQuery.EditUser(1);
 	}
 
     private void OnReceive(string result)
     {
-        print(JsonParser<List<Shop>>.GetObject(result).Count);
+        list = JsonParser<List<Shop>>.GetObject(result);
+        print(list.Count);
     }
 }
