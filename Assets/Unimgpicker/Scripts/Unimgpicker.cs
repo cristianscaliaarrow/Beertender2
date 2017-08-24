@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Kakera
-{
+
     public class Unimgpicker : MonoBehaviour
     {
         public delegate void ImageDelegate(string path);
@@ -45,4 +44,3 @@ namespace Kakera
             }
         }
     }
-}

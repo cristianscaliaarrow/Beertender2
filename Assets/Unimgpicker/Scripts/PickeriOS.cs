@@ -1,8 +1,6 @@
 ﻿#if UNITY_IOS
 using System.Runtime.InteropServices;
 
-namespace Kakera
-{
     internal class PickeriOS : IPicker
     {
         [DllImport("__Internal")]
@@ -13,5 +11,4 @@ namespace Kakera
             Unimgpicker_show(title, outputFileName, maxSize);
         }
     }
-}
 #endif

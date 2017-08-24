@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Kakera
-{
     public class Rotator : MonoBehaviour
     {
         [SerializeField]
@@ -13,4 +11,3 @@ namespace Kakera
             transform.Rotate(rotationVector * Time.deltaTime);
         }
     }
-}

@@ -1,7 +1,4 @@
-﻿namespace Kakera
-{
-    internal interface IPicker
+﻿    internal interface IPicker
     {
         void Show(string title, string outputFileName, int maxSize);
     }
-}

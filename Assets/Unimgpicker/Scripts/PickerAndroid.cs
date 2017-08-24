@@ -1,8 +1,6 @@
 ﻿#if UNITY_ANDROID
 using UnityEngine;
 
-namespace Kakera
-{
     internal class PickerAndroid : IPicker
     {
         private static readonly string PickerClass = "com.kakeragames.unimgpicker.Picker";
@@ -15,5 +13,4 @@ namespace Kakera
             }
         }
     }
-}
 #endif

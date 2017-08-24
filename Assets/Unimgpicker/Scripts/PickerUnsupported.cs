@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-namespace Kakera
-{
     internal class PickerUnsupported : IPicker
     {
         public void Show(string title, string outputFileName, int maxSize)
@@ -16,4 +14,3 @@ namespace Kakera
             }
         }
     }
-}
