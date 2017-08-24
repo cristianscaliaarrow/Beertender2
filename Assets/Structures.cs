@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -9,7 +11,12 @@ public class JsonParser<T>
     public static T GetObject(string str)
     {
         return JsonUtility.FromJson<JsonParser<T>>(str).data;
-    } 
+    }
+
+    internal static List<PrizeStaff> GetObject(string result, Action<string> onReceive)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 
@@ -63,7 +70,7 @@ public class PrizeStaff
     public string name;
     public string img_url;
     public int pts_cost;
-    public int catagoloID;
+    public string catagoloID;
     public int SKU;
     public int enabled;
     public int stock;
@@ -78,6 +85,7 @@ public enum Rol
 [System.Serializable]
 public class Shop
 {
+    public static Shop instance;
     public int id;
     public string name;
     public int idPM;
@@ -85,5 +93,10 @@ public class Shop
     public int objVolumen;
     public int objDisponibilidad;
     public int total_pts;
+
+    public Shop()
+    {
+        instance = this;
+    }
 }
 

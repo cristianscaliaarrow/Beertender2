@@ -4,16 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Home : MonoBehaviour {
-
+    public static Home instance;
     public Image background;
     public Sprite ownerManagerBackgroundImage;
     public Sprite StaffBackgroundImage;
     public Sprite commonBackgroundImage;
 
-    public GameObject panelStaff;
-    public GameObject panelOwnerManager;
+    public HomeStaff panelStaff;
+    public HomeOwnerManager panelOwnerManager;
 
     public GameObject home;
+
+    private void Start()
+    {
+        instance = this;
+    }
 
     private void OnEnable()
     {
@@ -31,15 +36,16 @@ public class Home : MonoBehaviour {
         switch (User.instance.rol)
         {
             case (int)Rol.STAFF:
-                panelStaff.SetActive(true);
-                panelOwnerManager.SetActive(false);
+                panelStaff.gameObject.SetActive(true);
+                panelOwnerManager.gameObject.SetActive(false);
                 background.sprite = StaffBackgroundImage;
-
+                panelStaff.userName.text = User.instance.firstName;
+                panelStaff.barName.text = Shop.instance.name;
                 break;
             case (int)Rol.MANAGER:
             case (int)Rol.OWNER:
-                panelStaff.SetActive(false);
-                panelOwnerManager.SetActive(true);
+                panelStaff.gameObject.SetActive(false);
+                panelOwnerManager.gameObject.SetActive(true);
                 background.sprite = ownerManagerBackgroundImage;
                 break;
         }

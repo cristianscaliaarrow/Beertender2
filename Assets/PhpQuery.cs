@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,6 +13,11 @@ public class PhpQuery : MonoBehaviour {
     void Awake()
     {
         instance = this;
+    }
+
+    public static void GetPrizeStaff(Action<string> callBack)
+    {
+        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/prizestaff/",callBack));
     }
 
     #region "Users"
@@ -41,6 +48,31 @@ public class PhpQuery : MonoBehaviour {
     public static void EditUser(int id)
     {
         instance.StartCoroutine(StartQuery("http://api.nextcode.ml/users/" + id, "{\"data\": {\"firstName\":\"cambio\"}}"));
+    }
+
+    public static void AddUser()
+    {
+        //instance.StartCoroutine(StartQuery("api.nextcode.ml/users", ""));
+
+        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/users");
+        httpWebRequest.ContentType = "application/json";
+        httpWebRequest.Method = "POST";
+
+        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+        {
+            string json = "{\"data\": {\"dni\": \"12345678\",\"email\": \"12345678t@email.com\",\"shop_id\": \"9\",\"role_id\": \"2\"}}";
+            streamWriter.Write(json);
+            streamWriter.Flush();
+            streamWriter.Close();
+        }
+
+        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+        {
+            var result = streamReader.ReadToEnd();
+        }
+
+
     }
 
     private static IEnumerator StartQuery(string query,Action<string> callBack)
