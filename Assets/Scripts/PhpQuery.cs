@@ -50,6 +50,11 @@ public class PhpQuery : MonoBehaviour {
         instance.StartCoroutine(StartQuery("http://api.nextcode.ml/users/" + id, "{\"data\": {\"firstName\":\"cambio\"}}"));
     }
 
+    internal static void GetMessages(Action<string> callBack)
+    {
+        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/messages/", callBack));
+    }
+
     public static void AddUser()
     {
         //instance.StartCoroutine(StartQuery("api.nextcode.ml/users", ""));

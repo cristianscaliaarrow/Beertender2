@@ -20,6 +20,11 @@ public class Contacto : MonoBehaviour {
 
 
     float scaleOff = 0.9f;
+    private void Start()
+    {
+        gameObject.SetActive(false);
+        BTN_Contacto();
+    }
 
     public void OnEnable()
     {
