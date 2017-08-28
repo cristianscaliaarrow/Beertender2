@@ -100,8 +100,3 @@ public class Shop
     }
 }
 
-public class ShopRanking
-{
-    public int shopId;
-}
-
