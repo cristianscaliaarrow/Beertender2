@@ -20,6 +20,11 @@ public class PhpQuery : MonoBehaviour {
         instance.StartCoroutine(StartQuery("http://api.nextcode.ml/prizestaff/",callBack));
     }
 
+    internal static void GetTOS(Action<string> callBack)
+    {
+        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/params/4", callBack));
+    }
+
     #region "Users"
     public static void GetUsers(Action<string> callBack)
     {
@@ -78,6 +83,11 @@ public class PhpQuery : MonoBehaviour {
         }
 
 
+    }
+
+    public static void GetRanking(Action<string> callBack)
+    {
+        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/rankings/shop/", callBack));
     }
 
     private static IEnumerator StartQuery(string query,Action<string> callBack)

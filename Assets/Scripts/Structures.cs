@@ -100,8 +100,9 @@ public class Shop
     }
 }
 
-public class ShopRanking
+[System.Serializable]
+public class TOS
 {
-    public int shopId;
+    public string updated;
+    public string value;
 }
-
