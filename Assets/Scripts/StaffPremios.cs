@@ -31,7 +31,6 @@ public class StaffPremios : MonoBehaviour {
         panelLayout.GetComponent<RectTransform>().sizeDelta = size;
         foreach (var item in premios)
         {
-
             GameObject go = Instantiate(prefabPrize);
             go.name = "PrizeStaff (" + i++ + ")";
             go.transform.SetParent(panelLayout.transform);

@@ -11,8 +11,10 @@ public class TerminosYCondiciones : MonoBehaviour {
     public GameObject PanelTerminos;
     public GameObject buttonAccept;
     public Text textTOS;
+
     private void Start()
     {
+        PlayerPrefs.SetString("tos", "");
         instance = this;
         gameObject.SetActive(false);
         buttonAccept.SetActive(false);
