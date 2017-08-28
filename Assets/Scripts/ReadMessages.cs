@@ -215,6 +215,7 @@ public class Message
     public int id;
     public string title;
     public string message;
+    public string date;
 
     public override bool Equals(object obj)
     {
