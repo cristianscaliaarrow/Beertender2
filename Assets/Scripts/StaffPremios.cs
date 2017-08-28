@@ -26,12 +26,9 @@ public class StaffPremios : MonoBehaviour {
     {
         premios = JsonParser<List<PrizeStaff>>.GetObject(result);
         int i = 0;
-        Vector2 size = panelLayout.GetComponent<RectTransform>().sizeDelta;
-        size.y = premios.Count * prefabPrize.GetComponent<RectTransform>().sizeDelta.y + prefabPrize.GetComponent<RectTransform>().sizeDelta.y/2;
-        panelLayout.GetComponent<RectTransform>().sizeDelta = size;
+      
         foreach (var item in premios)
         {
-
             GameObject go = Instantiate(prefabPrize);
             go.name = "PrizeStaff (" + i++ + ")";
             go.transform.SetParent(panelLayout.transform);

@@ -14,13 +14,9 @@ public class Login : MonoBehaviour {
     public Text premiosStaffPuntos;
 
 
-    public GameObject panelTerminosYcondiciones;
 
 	void Start () {
-        if (!File.Exists(Application.persistentDataPath + "/FirstInit.txt"))
-        {
-            panelTerminosYcondiciones.SetActive(true);
-        }
+        
 	}
 
     public void BTN_Ingresar()
