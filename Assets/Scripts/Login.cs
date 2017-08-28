@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,14 +12,8 @@ public class Login : MonoBehaviour {
     public Text nameTopRigth;
     public Text premiosStaffPuntos;
 
-
-    public GameObject panelTerminosYcondiciones;
-
 	void Start () {
-        if (!File.Exists(Application.persistentDataPath + "/FirstInit.txt"))
-        {
-            panelTerminosYcondiciones.SetActive(true);
-        }
+        
 	}
 
     public void BTN_Ingresar()
