@@ -14,7 +14,6 @@ public class TerminosYCondiciones : MonoBehaviour {
 
     private void Start()
     {
-        PlayerPrefs.SetString("tos", "");
         instance = this;
         gameObject.SetActive(false);
         buttonAccept.SetActive(false);
