@@ -42,9 +42,18 @@ public class Login : MonoBehaviour {
 
     private void OnGetShopInfo(string result)
     {
-        Shop u = JsonUtility.FromJson<JsonParser<Shop>>(result).data;
-        Home.instance.gameObject.SetActive(true);
-        Home.instance.BTN_ShowHome();
-        gameObject.SetActive(false);
+        try
+        {
+            Shop u = JsonUtility.FromJson<JsonParser<Shop>>(result).data;
+            Home.instance.gameObject.SetActive(true);
+            Home.instance.BTN_ShowHome();
+            gameObject.SetActive(false);
+        }
+        catch
+        {
+            NativePlugin.instance.ShowDialog("Error!", "El Usuario no Existe", "Aceptar", delegate { });
+        }
+
+       
     }
 }
