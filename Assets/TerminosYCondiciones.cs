@@ -32,28 +32,14 @@ public class TerminosYCondiciones : MonoBehaviour {
         int halfIndex = tos.value.Length / 2;
         textTOS1.text = tos.value.Substring(0, halfIndex);
         textTOS2.text = tos.value.Substring(halfIndex);
-        /*SceneView.RepaintAll();
-        HandleUtility.Repaint();
-        if (GUI.changed)
-        {
-            EditorUtility.SetDirty(textTOS1.transform.parent.GetComponent<VerticalLayoutGroup>());
-            EditorUtility.SetDirty(textTOS1);
-            EditorUtility.SetDirty(textTOS2);
-
-        }*/
+        buttonAccept.SetActive(true);
         if (tos.updated != PlayerPrefs.GetString("tos"))
         {
             gameObject.SetActive(true);
         }
-        StartCoroutine(WaitTime());
     }
 
-    private IEnumerator WaitTime()
-    {
-        yield return 1f;
-        textTOS1.transform.parent.GetComponent<VerticalLayoutGroup>().SetLayoutVertical();
-
-    }
+   
 
     public void BTN_AceptarTerminos()
     {
