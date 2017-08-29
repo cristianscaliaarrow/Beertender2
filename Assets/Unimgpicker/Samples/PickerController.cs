@@ -11,7 +11,7 @@ public class PickerController : MonoBehaviour
     [SerializeField]
     private Image imageRenderer;
 
-    void Awake()
+    void Start()
     {
         imagePicker.Completed += (string path) =>
         {
@@ -25,7 +25,7 @@ public class PickerController : MonoBehaviour
         string pathPic = PlayerPrefs.GetString("picPath");
         if (pathPic != "")
         {
-            LoadImage(pathPic, imageRenderer);
+            StartCoroutine(LoadImage(pathPic, imageRenderer));
         }
     }
 

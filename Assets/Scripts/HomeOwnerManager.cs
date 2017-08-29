@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class HomeOwnerManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public GameObject popupHistory;
+
+    public void BTN_ShowPopUpScore(bool b)
+    {
+        popupHistory.SetActive(b);
+    }
+
 }

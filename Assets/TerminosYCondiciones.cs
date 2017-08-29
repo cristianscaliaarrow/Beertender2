@@ -14,6 +14,7 @@ public class TerminosYCondiciones : MonoBehaviour {
 
     private void Start()
     {
+        PlayerPrefs.SetString("tos", "");
         instance = this;
         gameObject.SetActive(false);
         buttonAccept.SetActive(false);
@@ -24,7 +25,7 @@ public class TerminosYCondiciones : MonoBehaviour {
     private void OnTos(string obj)
     {
         tos = JsonParser<TOS>.GetObject(obj);
-        textTOS.text = tos.value;
+        textTOS.text = tos.value.Substring(0,16000);
         buttonAccept.SetActive(true);
         print(tos.updated +"!="+ PlayerPrefs.GetString("tos"));
         if(tos.updated != PlayerPrefs.GetString("tos"))
@@ -42,5 +43,9 @@ public class TerminosYCondiciones : MonoBehaviour {
         }
     }
 
+    public void OnValueChange()
+    {
+
+    }
    
 }

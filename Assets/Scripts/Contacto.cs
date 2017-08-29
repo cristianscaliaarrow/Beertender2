@@ -20,6 +20,7 @@ public class Contacto : MonoBehaviour {
 
 
     float scaleOff = 0.9f;
+
     private void Start()
     {
         gameObject.SetActive(false);
@@ -42,7 +43,7 @@ public class Contacto : MonoBehaviour {
         mensaje.Toggle(false);
         mensaje.button.transform.localScale = Vector3.one * scaleOff;
         contacto.Toggle(true);
-        contacto.button.transform.localScale = Vector3.one;
+        contacto.button.transform.localScale = Vector3.one * 0.9f;
         panelContactoWriteQuery.SetActive(true);
         panelContactoReadMessage.SetActive(false);
     }
@@ -52,7 +53,7 @@ public class Contacto : MonoBehaviour {
         mensaje.Toggle(true);
         contacto.Toggle(false);
         mensaje.button.transform.localScale = Vector3.one;
-        contacto.button.transform.localScale = Vector3.one * scaleOff;
+        contacto.button.transform.localScale = Vector3.one * 0.8f;
         panelContactoWriteQuery.SetActive(false);
         panelContactoReadMessage.SetActive(true);
     }

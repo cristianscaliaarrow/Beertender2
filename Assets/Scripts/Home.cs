@@ -53,6 +53,6 @@ public class Home : MonoBehaviour {
 
     public void BTN_ShowHitoryPuntos()
     {
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 }
