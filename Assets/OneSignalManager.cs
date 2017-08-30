@@ -26,7 +26,7 @@ public class OneSignalManager : MonoBehaviour {
         str = ("GameControllerExample:HandleNotificationReceived: " + message + "\n");
         str += ("displayType: " + notification.displayType + "\n");
         str += "Notification received with text: " + message + "\n";
-
+        Debug.Log("POKE " + message);
         /* Dictionary<string, object> additionalData = payload.additionalData;
          if (additionalData == null)
              Debug.Log("[HandleNotificationReceived] Additional Data == null");
