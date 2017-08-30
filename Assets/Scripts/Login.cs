@@ -13,10 +13,12 @@ public class Login : MonoBehaviour {
     public Text nameTopRigth;
     public Text premiosStaffPuntos;
 
+    public static User debugUser;
+    public static Login instance;
 
 
 	void Start () {
-        
+        instance = this;
 	}
 
     public void BTN_Ingresar()
@@ -27,17 +29,30 @@ public class Login : MonoBehaviour {
     private void Algo(string result)
     {
         User u = JsonUtility.FromJson<JsonParser<User>>(result).data;
-        nameTopRigth.text = u.firstName.ToUpper() + " " + u.lastName.ToUpper();
-        premiosStaffPuntos.text = "TENÉS <size=70> "+u.total_pts+" </size> PUNTOS";
+        debugUser = u;
         PhpQuery.GetShop(u.shop_id, OnGetShopInfo);
-       
+        UpdateGUI();
     }
+
+    public static void UpdateGUI() {
+        instance.nameTopRigth.text = debugUser.firstName.ToUpper() + " " + debugUser.lastName.ToUpper();
+        instance.premiosStaffPuntos.text = "TENÉS <size=70> " + debugUser.total_pts + " </size> PUNTOS";
+    }
+
 
     private void OnGetShopInfo(string result)
     {
-        Shop u = JsonUtility.FromJson<JsonParser<Shop>>(result).data;
-        Home.instance.gameObject.SetActive(true);
-        Home.instance.BTN_ShowHome();
-        gameObject.SetActive(false);
+        try
+        {
+            Shop u = JsonUtility.FromJson<JsonParser<Shop>>(result).data;
+            Home.instance.gameObject.SetActive(true);
+            Home.instance.BTN_ShowHome();
+            gameObject.SetActive(false);
+        }
+        catch
+        {
+        }
+
+       
     }
 }

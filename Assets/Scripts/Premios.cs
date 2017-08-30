@@ -8,6 +8,7 @@ public class Premios : MonoBehaviour {
     public GameObject panelManager;
     public GameObject panelOwner;
 
+    
     private void OnDisable()
     {
         panelStaff.SetActive(false);
@@ -37,5 +38,13 @@ public class Premios : MonoBehaviour {
         gameObject.SetActive(true);
         panelStaff.SetActive(true);
     }
+
+    public void BTN_VerPremiosDeManager()
+    {
+        gameObject.SetActive(true);
+        panelStaff.SetActive(true);
+        panelManager.SetActive(false);
+    }
+
 }
 

@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 [System.Serializable]
 public class ReadMessages : MonoBehaviour {
@@ -62,6 +63,27 @@ public class ReadMessages : MonoBehaviour {
     private void ReadMessageFromServer()
     {
         bool debug = true;
+
+        if (!debug)
+        {
+            PhpQuery.GetMessages((str) =>
+            {
+                serverMessages = JsonParser<List<Message>>.GetObject(str);
+                serverMessages = serverMessages.Except(readedMessages).ToList();
+                serverMessages = serverMessages.Except(pendingMessages).ToList();
+                foreach (var item in serverMessages)
+                    pendingMessages.Add(item);
+                CreateMessages();
+                UpdatePopUpPendingMessages();
+            });
+        }
+       
+    }
+
+
+   /* private void ReadMessageFromServer()
+    {
+        bool debug = true;
         
         if (!debug)
         {
@@ -84,7 +106,7 @@ public class ReadMessages : MonoBehaviour {
             UpdatePopUpPendingMessages();
         } 
 
-    }
+    }*/
 
     private void OnDestroy()
     {

@@ -13,7 +13,7 @@ public class HomeStaff : MonoBehaviour {
 
     private void OnEnable()
     {
-        
+        txtPuntos.text = "TENÉS <size=55> "+Login.debugUser.total_pts+" </size> PUNTOS";
     }
 
     public void BTN_UploadPhoto()
@@ -31,11 +31,11 @@ public class HomeStaff : MonoBehaviour {
 
                 public void Init()
                 {
-        callback = (s, b) => {
-            Debug.Log("ALGO BIEN SALIO " + s + " bool " + b);
-        };
+                    callback = (s, b) => {
+                        Debug.Log("ALGO BIEN SALIO " + s + " bool " + b);
+                    };
 
-        Debug.Log("ImagePickerPlugin Init called ");
+               
             #if UNITY_ANDROID
                     androidPlugin = new AndroidJavaObject("com.redoceanred.unity.android.PickerImagePlugin");
                     androidPlugin.Call("initPlugin", gameObject.name);

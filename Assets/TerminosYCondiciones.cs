@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,24 +7,47 @@ public class TerminosYCondiciones : MonoBehaviour {
     public Toggle toggle;
     public GameObject PanelTerminos;
     public GameObject buttonAccept;
-    public Text textTOS;
+    public Text textTOS1;
+    public Text textTOS2;
+
+    public Text textTOS3;
+    public Text textTOS4;
+
+    string fileTos = "/tos.txt";
 
     private void Start()
     {
+        PlayerPrefs.SetString("tos", "");
         instance = this;
         gameObject.SetActive(false);
         buttonAccept.SetActive(false);
+        if (File.Exists(Application.persistentDataPath + fileTos))
+        {
+
+        }
         PhpQuery.GetTOS(OnTos);
+
     }
 
     TOS tos;
     private void OnTos(string obj)
     {
         tos = JsonParser<TOS>.GetObject(obj);
-        textTOS.text = tos.value;
+        File.WriteAllText(Application.persistentDataPath + fileTos, tos.value);
+        WriteInGuiTos(tos.value);
+    }
+
+   public void WriteInGuiTos(string str)
+    {
+        int halfIndex = tos.value.Length / 2;
+        string str1 = tos.value.Substring(0, halfIndex);
+        string str2 = tos.value.Substring(halfIndex);
+        textTOS1.text = str1;
+        textTOS2.text = str2;
+        textTOS3.text = str1;
+        textTOS4.text = str2;
         buttonAccept.SetActive(true);
-        print(tos.updated +"!="+ PlayerPrefs.GetString("tos"));
-        if(tos.updated != PlayerPrefs.GetString("tos"))
+        if (tos.updated != PlayerPrefs.GetString("tos"))
         {
             gameObject.SetActive(true);
         }
@@ -42,5 +62,6 @@ public class TerminosYCondiciones : MonoBehaviour {
         }
     }
 
+   
    
 }

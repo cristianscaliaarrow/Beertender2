@@ -67,6 +67,7 @@ public class PhpQuery : MonoBehaviour {
         var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/users");
         httpWebRequest.ContentType = "application/json";
         httpWebRequest.Method = "POST";
+        httpWebRequest.Headers.Add("Authentication", "Bearer "+User.authorization);
 
         using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
         {
@@ -83,6 +84,32 @@ public class PhpQuery : MonoBehaviour {
         }
 
 
+    }
+
+    public static void SendContact()
+    {
+        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/msj");
+        httpWebRequest.ContentType = "application/json";
+        httpWebRequest.Method = "POST";
+        httpWebRequest.Headers.Add("Authentication", "Bearer "+User.authorization);
+
+         /*
+         user_id, subject, msj, from 
+         */
+
+        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+        {
+            string json = "{\"data\": {\"user_id\": \"11\",\"subject\": \"Algun Subject\",\"msj\": \"El Mensaje.\",\"from\": \"cristian.scalia@arrow.com.ar\"}}";
+            streamWriter.Write(json);
+            streamWriter.Flush();
+            streamWriter.Close();
+        }
+
+        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+        {
+            var result = streamReader.ReadToEnd();
+        }
     }
 
     public static void GetRanking(Action<string> callBack)
