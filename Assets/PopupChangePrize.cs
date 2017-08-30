@@ -17,7 +17,6 @@ public class PopupChangePrize : MonoBehaviour {
         {
             BTN_ClosePopUp();
             Debug.LogError("no tenes puntos");
-            NativePlugin.instance.ShowDialog("Puntos Insuficientes!", "No posees la cantidad necesaria de puntos para canjear este producto!","Aceptar", delegate { });
         }
 
        

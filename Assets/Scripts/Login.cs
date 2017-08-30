@@ -51,7 +51,6 @@ public class Login : MonoBehaviour {
         }
         catch
         {
-            NativePlugin.instance.ShowDialog("Error!", "El Usuario no Existe", "Aceptar", delegate { });
         }
 
        
