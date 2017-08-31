@@ -88,7 +88,7 @@ public class PhpQuery : MonoBehaviour {
 
     public static void SendContact()
     {
-        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/msj");
+        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/msjs");
         httpWebRequest.ContentType = "application/json";
         httpWebRequest.Method = "POST";
         httpWebRequest.Headers.Add("Authentication", "Bearer "+User.authorization);
