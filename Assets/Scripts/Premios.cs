@@ -14,7 +14,6 @@ public class Premios : MonoBehaviour {
         panelStaff.SetActive(false);
         panelManager.SetActive(false);
         panelOwner.SetActive(false);
-
     }
 
     public void BTN_ShowPremios()

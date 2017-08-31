@@ -25,10 +25,7 @@ public class StaffPremios : MonoBehaviour {
 
     private void OnDisable()
     {
-        foreach (Transform item in panelLayout.transform)
-        {
-            Destroy(item.gameObject);
-        }
+        
     }
 
     private void LoadPrices(string result)
