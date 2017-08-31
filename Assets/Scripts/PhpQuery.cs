@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class PhpQuery : MonoBehaviour {
     public static PhpQuery instance;
@@ -86,9 +87,9 @@ public class PhpQuery : MonoBehaviour {
 
     }
 
-    public static void SendContact()
+    public static void SendContact(InputField nombre, InputField correo, InputField tema, InputField message)
     {
-        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/msj");
+        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/msjs");
         httpWebRequest.ContentType = "application/json";
         httpWebRequest.Method = "POST";
         httpWebRequest.Headers.Add("Authentication", "Bearer "+User.authorization);
@@ -99,7 +100,7 @@ public class PhpQuery : MonoBehaviour {
 
         using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
         {
-            string json = "{\"data\": {\"user_id\": \"11\",\"subject\": \"Algun Subject\",\"msj\": \"El Mensaje.\",\"from\": \"cristian.scalia@arrow.com.ar\"}}";
+            string json = "{\"data\": {\"user_id\": \""+Login.debugUser.id+"\",\"subject\": \""+tema.text+"\",\"msj\": \""+message.text+"\",\"from\": \""+correo.text+"\"}}";
             streamWriter.Write(json);
             streamWriter.Flush();
             streamWriter.Close();

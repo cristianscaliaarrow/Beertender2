@@ -21,32 +21,40 @@ public class ReadMessages : MonoBehaviour {
 
     public List<Message> serverMessages;
 
-    List<Message> pendingMessages = new List<Message>();
-    LinkedList<Message> readedMessages = new LinkedList<Message>();
+    public List<Message> pendingMessages = new List<Message>();
+    public LinkedList<Message> readedMessages = new LinkedList<Message>();
 
     private void Start()
     {
-         pendingPath = Application.persistentDataPath + "/pending.txt";
-         readedPath = Application.persistentDataPath + "/readed.txt";
+        LoadMessagesFromFile();
+
+        UpdatePopUpPendingMessages();
+    }
+
+    public void LoadMessagesFromFile()
+    {
+        pendingPath = Application.persistentDataPath + "/pending.txt";
+        readedPath = Application.persistentDataPath + "/readed.txt";
 
         if (File.Exists(pendingPath))
         {
             string pendingStr = File.ReadAllText(pendingPath);
             pendingMessages = JsonParser<List<Message>>.GetObject(pendingStr);
         }
-
+        Debug.Log("POKE tryien to find file ");
         if (File.Exists(readedPath))
         {
+            Debug.Log("POKE FileExist ");
             string readedStr = File.ReadAllText(readedPath);
             List<Message> readed = JsonParser<List<Message>>.GetObject(readedStr);
             readedMessages.Clear();
             foreach (var item in readed)
+            {
                 readedMessages.AddLast(item);
+                Debug.Log("POKE Readed " + item.message);
+            }
         }
-
-        UpdatePopUpPendingMessages();
     }
-
 
     public void UpdatePopUpPendingMessages()
     {
@@ -56,30 +64,9 @@ public class ReadMessages : MonoBehaviour {
 
     private void OnEnable()
     {
-        ReadMessageFromServer();
         CreateMessages();
+        UpdatePopUpPendingMessages();
     }
-
-    private void ReadMessageFromServer()
-    {
-        bool debug = true;
-
-        if (!debug)
-        {
-            PhpQuery.GetMessages((str) =>
-            {
-                serverMessages = JsonParser<List<Message>>.GetObject(str);
-                serverMessages = serverMessages.Except(readedMessages).ToList();
-                serverMessages = serverMessages.Except(pendingMessages).ToList();
-                foreach (var item in serverMessages)
-                    pendingMessages.Add(item);
-                CreateMessages();
-                UpdatePopUpPendingMessages();
-            });
-        }
-       
-    }
-
 
    /* private void ReadMessageFromServer()
     {
@@ -143,7 +130,6 @@ public class ReadMessages : MonoBehaviour {
         {
             Destroy(item.gameObject);
         }
-       
 
         foreach (var item in pendingMessages)
         {
@@ -171,6 +157,7 @@ public class ReadMessages : MonoBehaviour {
     {
         pendingMessages.Remove(messg);
         readedMessages.AddFirst(messg);
+        SaveAllMessage();
     }
 
     private void OnClickMe(Message messg)
@@ -192,8 +179,14 @@ public class ReadMessages : MonoBehaviour {
         GameObject.Find(popUpDescriptionMessage.name + "/Description").GetComponent<Text>().text = description;
     }
 
+    public void SaveAllMessage()
+    {
+        SaveReadedMessagesInFile();
+        SavePendingMessagesInFile();
+    }
     private void SaveReadedMessagesInFile()
     {
+        Debug.Log("POKE SaveReadedMessagesInFile ");
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("{\"data\":[");
         foreach (var item in readedMessages)
@@ -207,11 +200,12 @@ public class ReadMessages : MonoBehaviour {
                 sb.AppendLine(",");
         }
         sb.AppendLine("]}");
-        File.WriteAllText(Application.persistentDataPath + "/readed.txt", sb.ToString());
+        File.WriteAllText(readedPath, sb.ToString());
     }
 
     private void SavePendingMessagesInFile()
     {
+        Debug.Log("POKE SavePendingMessagesInFile ");
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("{\"data\":[");
         foreach (var item in pendingMessages)
@@ -225,7 +219,7 @@ public class ReadMessages : MonoBehaviour {
                 sb.AppendLine(",");
         }
         sb.AppendLine("]}");
-        File.WriteAllText(Application.persistentDataPath + "/pending.txt", sb.ToString());
+        File.WriteAllText(pendingPath, sb.ToString());
     }
 
 }
@@ -241,7 +235,7 @@ public class Message
 
     public override bool Equals(object obj)
     {
-        return this.id == ((Message)obj).id;
+        return this.title == ((Message)obj).title && ((Message)obj).message == message;
     }
 
     public override int GetHashCode()

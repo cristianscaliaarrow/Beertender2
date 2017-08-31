@@ -17,14 +17,9 @@ public class TerminosYCondiciones : MonoBehaviour {
 
     private void Start()
     {
-        PlayerPrefs.SetString("tos", "");
         instance = this;
         gameObject.SetActive(false);
         buttonAccept.SetActive(false);
-        if (File.Exists(Application.persistentDataPath + fileTos))
-        {
-
-        }
         PhpQuery.GetTOS(OnTos);
 
     }

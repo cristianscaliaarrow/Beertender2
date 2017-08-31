@@ -20,7 +20,8 @@ public class WriteQuery : MonoBehaviour {
 
     public void BTN_Enviar()
     {
-
+        PhpQuery.SendContact(nombre,correo,tema,message);
+        ClearFields();
     }
 }
 
