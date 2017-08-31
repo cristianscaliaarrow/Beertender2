@@ -13,7 +13,8 @@ public class HomeStaff : MonoBehaviour {
 
     private void OnEnable()
     {
-        txtPuntos.text = "TENÉS <size=55> "+Login.debugUser.total_pts+" </size> PUNTOS";
+        //txtPuntos.text = "TENÉS <size=55> "+Login.debugUser.total_pts+" </size> PUNTOS";
+        Login.UpdateGUI();
     }
 
     public void BTN_UploadPhoto()

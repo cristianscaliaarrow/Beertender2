@@ -13,6 +13,11 @@ public class Login : MonoBehaviour {
     public Text nameTopRigth;
     public Text premiosStaffPuntos;
 
+    public Text puntosOwnerManager;
+    public Text puntosStaff;
+    public Text registrosStaff;
+
+
     public static User debugUser;
     public static Login instance;
 
@@ -31,12 +36,14 @@ public class Login : MonoBehaviour {
         User u = JsonUtility.FromJson<JsonParser<User>>(result).data;
         debugUser = u;
         PhpQuery.GetShop(u.shop_id, OnGetShopInfo);
-        UpdateGUI();
     }
 
     public static void UpdateGUI() {
         instance.nameTopRigth.text = debugUser.firstName.ToUpper() + " " + debugUser.lastName.ToUpper();
         instance.premiosStaffPuntos.text = "TENÉS <size=70> " + debugUser.total_pts + " </size> PUNTOS";
+        instance.puntosOwnerManager.text = "TENÉS <size=70> " + debugUser.total_pts + " </size> PUNTOS";
+        instance.puntosStaff.text = "TENÉS <size=55> " + debugUser.total_pts + " </size> PUNTOS";
+        instance.registrosStaff.text = "HICISTE <size=55> " + 50 + " </size> REGISTROS";
     }
 
 
@@ -48,6 +55,7 @@ public class Login : MonoBehaviour {
             Home.instance.gameObject.SetActive(true);
             Home.instance.BTN_ShowHome();
             gameObject.SetActive(false);
+            UpdateGUI();
         }
         catch
         {
