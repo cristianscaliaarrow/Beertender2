@@ -4,7 +4,14 @@ using UnityEngine.UI;
 public class PopupChangePrize : MonoBehaviour {
     public static PrizeStaff prize;
     public InputField input;
-	public void BTN_ChangePrize()
+    public Text textPts;
+
+    public void OnEnable()
+    {
+        textPts.text = Login.debugUser.total_pts+"";    
+    }
+
+    public void BTN_ChangePrize()
     {
         if (Login.debugUser.total_pts >= int.Parse(input.text)) 
         {
