@@ -59,8 +59,8 @@ public class StaffPremios : MonoBehaviour {
 
     private void Click(PrizeStaff prize)
     {
-        popUpCanjear.SetActive(true);
         PopupChangePrize.prize = prize;
+        popUpCanjear.SetActive(true);
     }
 
 
