@@ -43,6 +43,7 @@ namespace Kakera
                 Debug.LogError("Failed to load texture url:" + url);
             }
 
+            output.transform.eulerAngles = new Vector3(0, 0, -90);
             output.sprite = Sprite.Create((Texture2D)texture, new Rect(0, 0, texture.width, texture.height), Vector3.one / 2);
         }
     }
