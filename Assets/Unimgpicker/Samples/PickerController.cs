@@ -32,19 +32,22 @@ namespace Kakera
 
         private IEnumerator LoadImage(string path, Image output)
         {
+
             var url = "file://" + path;
             var www = new WWW(url);
             yield return www;
             yield return new WaitForSeconds(0.5f);
-            Debug.Log("POKE " + path);
             var texture = www.texture;
             if (texture == null)
             {
                 Debug.LogError("Failed to load texture url:" + url);
+            }else
+            {
+                PlayerPrefs.SetString("imagePath-" + Login.debugUser.id, path);
             }
-
             output.transform.eulerAngles = new Vector3(0, 0, -90);
             output.sprite = Sprite.Create((Texture2D)texture, new Rect(0, 0, texture.width, texture.height), Vector3.one / 2);
+            Login.UpdateGUI();
         }
     }
 }
