@@ -4,13 +4,23 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PopupChangePrize : MonoBehaviour {
+    public static PopupChangePrize instance;
+
     public static PrizeStaff prize;
     public InputField input;
     public Text textPts;
     public Text title;
     Action _a = delegate { };
 
-    public GameObject msgPanel;
+    public GameObject panelResult;
+
+
+    private void Awake()
+    {
+        instance = this;
+        print("popupChangePrize ON!");
+        gameObject.SetActive(false);        
+    }
 
     public void OnEnable()
     {
@@ -20,14 +30,14 @@ public class PopupChangePrize : MonoBehaviour {
 
     public void BTN_ChangePrize()
     {
-        if (int.Parse(input.text) <= 0) { ShowPanel("Error al ingresar el monto!", 1); return; }
+        if (int.Parse(input.text) <= 0) { PanelResult.ShowMsg("Error al ingresar el monto!", 1); return; }
         if (Login.debugUser.total_pts*2 >= int.Parse(input.text)) 
         {
             StartCoroutine(SendBuyPrize());
         }
         else
         {
-            ShowPanel("No Tiene Suficientes Puntos", 1,()=>BTN_ClosePopUp());
+            PanelResult.ShowMsg("No Tiene Suficientes Puntos", 1,()=>BTN_ClosePopUp());
         }
 
        
@@ -35,7 +45,7 @@ public class PopupChangePrize : MonoBehaviour {
 
     private IEnumerator SendBuyPrize()
     {
-        ShowPanel("Espere...",2,() => ShowPanel("La operacoin se realizo correctamente.", 2,()=> {
+        PanelResult.ShowMsg("Espere...",2,() => PanelResult.ShowMsg("La operacoin se realizo correctamente.", 2,()=> {
             int pesos = int.Parse(input.text);
             float decimals = (float.Parse(input.text) /2 - (int)int.Parse(input.text)/2);
             int discount = (int)(pesos / 2 + ((decimals > 0) ? 1 : 0));
@@ -54,17 +64,5 @@ public class PopupChangePrize : MonoBehaviour {
         input.text = "";
     }
 
-    public void ShowPanel(string msg,float time,Action a = null)
-    {
-        msgPanel.GetComponentInChildren<Text>().text = msg;
-        StartCoroutine(cShowPanelError(time,a));
-    }
-
-    private IEnumerator cShowPanelError(float time,Action a)
-    {
-        msgPanel.SetActive(true);
-        yield return new WaitForSeconds(time);
-        msgPanel.SetActive(false);
-        if (a != null) a();
-    }
+   
 }
