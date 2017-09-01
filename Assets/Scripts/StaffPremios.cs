@@ -35,13 +35,12 @@ public class StaffPremios : MonoBehaviour {
       
         foreach (var item in premios)
         {
-            int id = item.id;
             GameObject go = Instantiate(prefabPrize);
             go.name = "PrizeStaff (" + i++ + ")";
             go.transform.SetParent(panelLayout.transform);
             go.transform.localScale = Vector3.one;
             GameObject.Find(go.name + "/txtTitle").GetComponent<Text>().text = item.name;
-            // GameObject.Find(go.name + "/txtPuntos").GetComponent<Text>().text = item.pts_cost + " PTOS.";
+            PrizeStaff itemPrize = item;
             if (Login.debugUser.role_id == (int)Rol.MANAGER && !CanManagerChange())
                 GameObject.Find(go.name + "/Button").SetActive(false);
             else
@@ -51,7 +50,7 @@ public class StaffPremios : MonoBehaviour {
                 EventTrigger.Entry onEntry = new EventTrigger.Entry();
                 onEntry.eventID = EventTriggerType.PointerClick;
                 onEntry.callback.RemoveAllListeners();
-                onEntry.callback.AddListener((eventData) => { Click(item); });
+                onEntry.callback.AddListener((eventData) => { Click(itemPrize); });
                 goEvent.AddComponent<EventTrigger>().triggers.Add(onEntry);
             }
         }

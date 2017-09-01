@@ -15,7 +15,7 @@ public class PopupChangePrize : MonoBehaviour {
     public void OnEnable()
     {
         textPts.text = Login.debugUser.total_pts*2+"";
-        title.text = title.text.Replace("<TITLE>", prize.name);
+        title.text = "Pesos a canjear en orden de compra para " + (prize.name);
     }
 
     public void BTN_ChangePrize()
