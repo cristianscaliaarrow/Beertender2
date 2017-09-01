@@ -87,30 +87,9 @@ public class PhpQuery : MonoBehaviour {
 
     }
 
-    public static void SendContact(InputField nombre, InputField correo, InputField tema, InputField message)
+    public static void SendContact(string nombre, string correo, string tema, string message)
     {
-        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/msjs");
-        httpWebRequest.ContentType = "application/json";
-        httpWebRequest.Method = "POST";
-        httpWebRequest.Headers.Add("Authentication", "Bearer "+User.authorization);
-
-         /*
-         user_id, subject, msj, from 
-         */
-
-        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-        {
-            string json = "{\"data\": {\"user_id\": \""+Login.debugUser.id+"\",\"subject\": \""+tema.text+"\",\"msj\": \""+message.text+"\",\"from\": \""+correo.text+"\"}}";
-            streamWriter.Write(json);
-            streamWriter.Flush();
-            streamWriter.Close();
-        }
-
-        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-        {
-            var result = streamReader.ReadToEnd();
-        }
+        
     }
 
     public static void GetRanking(Action<string> callBack)
