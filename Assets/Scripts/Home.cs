@@ -39,7 +39,7 @@ public class Home : MonoBehaviour {
                 panelStaff.gameObject.SetActive(true);
                 panelOwnerManager.gameObject.SetActive(false);
                 background.sprite = StaffBackgroundImage;
-                panelStaff.userName.text = User.instance.firstName;
+                panelStaff.userName.text = User.instance.firstName + " " + User.instance.lastName;
                 panelStaff.barName.text = Shop.instance.name;
                 break;
             case (int)Rol.MANAGER:
