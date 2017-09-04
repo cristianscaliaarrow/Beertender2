@@ -26,6 +26,11 @@ public class PhpQuery : MonoBehaviour {
         instance.StartCoroutine(StartQuery("http://api.nextcode.ml/params/4", callBack));
     }
 
+    internal static void GetHash(string username,string hash,int first,Action<string> callBack)
+    {
+        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/params/4", callBack));
+    }
+
     #region "Users"
     public static void GetUsers(Action<string> callBack)
     {
@@ -137,9 +142,7 @@ public class PhpQuery : MonoBehaviour {
 
     private static IEnumerator StartQuery(string query, string body)
     {
-        var headers = new Dictionary<string, string>();
-        headers.Add("Authorization", "Bearer " + User.authorization);
-
+      
         UnityWebRequest webRequest;
         byte[] bytes = Encoding.UTF8.GetBytes(body);
         webRequest = UnityWebRequest.Put(query, bytes);
@@ -155,6 +158,35 @@ public class PhpQuery : MonoBehaviour {
         {
             Debug.Log(webRequest.error);
         }
+
+    }
+
+
+
+    public static void SendQueryContacto(string body)
+    {
+        //instance.StartCoroutine(StartQuery("api.nextcode.ml/users", ""));
+
+        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/msjs");
+        httpWebRequest.ContentType = "application/json";
+        httpWebRequest.Method = "POST";
+        httpWebRequest.Headers.Add("Authentication", "Bearer " + User.authorization);
+
+        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+        {
+            string json = body;
+            streamWriter.Write(json);
+            streamWriter.Flush();
+            streamWriter.Close();
+        }
+
+        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+        {
+            var result = streamReader.ReadToEnd();
+        }
+
+        print("TERMINE! SendQueryContacto");
 
     }
 }

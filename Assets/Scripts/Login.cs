@@ -86,7 +86,7 @@ public class Login : MonoBehaviour {
         var www = new WWW(url);
         yield return www;
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("POKE " + path);
+    
         var texture = www.texture;
         if (texture == null)
         {

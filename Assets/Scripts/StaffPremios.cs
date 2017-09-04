@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -18,15 +19,6 @@ public class StaffPremios : MonoBehaviour {
         PhpQuery.GetPrizeStaff(LoadPrices);
     }
 
-    private void OnEnable()
-    {
-       
-    }
-
-    private void OnDisable()
-    {
-        
-    }
 
     private void LoadPrices(string result)
     {
@@ -41,6 +33,7 @@ public class StaffPremios : MonoBehaviour {
             go.transform.localScale = Vector3.one;
             GameObject.Find(go.name + "/txtTitle").GetComponent<Text>().text = item.name;
             PrizeStaff itemPrize = item;
+            LoadImagePrize(item, GameObject.Find(go.name + "/Mask/prizeImage").GetComponent<Image>());
             if (Login.debugUser.role_id == (int)Rol.MANAGER && !CanManagerChange())
                 GameObject.Find(go.name + "/Button").SetActive(false);
             else
@@ -54,6 +47,67 @@ public class StaffPremios : MonoBehaviour {
                 goEvent.AddComponent<EventTrigger>().triggers.Add(onEntry);
             }
         }
+    }
+
+    private void LoadImagePrize(PrizeStaff prize,Image img)
+    {
+        string path="";
+        bool saveToFile = false; 
+      
+        if (CambioImagenUrl(prize))
+        {
+            saveToFile = true;
+            path = prize.img_url;
+             PlayerPrefs.SetString(GetFileName(prize), prize.img_url);
+       }
+        else
+        {
+            print("Loading from file " + prize.name);
+            path = Application.persistentDataPath + "/" + GetFileName(prize) + ".png";
+        }
+        StartCoroutine(GetImageFrom(path, img,saveToFile,prize));
+    }
+
+    private bool CambioImagenUrl(PrizeStaff prize)
+    {
+        if (PlayerPrefs.GetString(GetFileName(prize)) != prize.img_url)
+        {
+            print(PlayerPrefs.GetString(GetFileName(prize)) + " " + prize.img_url);
+        }
+        return PlayerPrefs.GetString(GetFileName(prize)) != prize.img_url;
+    }
+
+
+    public IEnumerator GetImageFrom(string filePath, Image img,bool saveToFile,PrizeStaff prize) {
+        WWW www = new WWW(filePath);
+        yield return www;
+        if (!saveToFile && File.Exists(filePath))
+        {
+            Texture2D tx = new Texture2D(1, 1);
+            tx.LoadImage(File.ReadAllBytes(filePath));
+            img.sprite = Sprite.Create(tx, new Rect(0, 0, tx.width, tx.height), Vector3.one / 2);
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(www.error))
+            {
+                print("ERROR " + prize.name);
+            }
+            else
+            {
+                Texture2D tx = (Texture2D)www.texture;
+                img.sprite = Sprite.Create(tx, new Rect(0, 0, tx.width, tx.height), Vector3.one / 2);
+                if (saveToFile)
+                    File.WriteAllBytes(Application.persistentDataPath + "/" + GetFileName(prize) + ".png", (tx).EncodeToPNG());
+            }
+        }
+       
+    }
+
+
+    private string GetFileName(PrizeStaff p)
+    {
+        return "prizes-" + p.id;
     }
 
     private void Click(PrizeStaff prize)
