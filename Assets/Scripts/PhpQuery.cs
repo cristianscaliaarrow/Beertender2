@@ -104,11 +104,10 @@ public class PhpQuery : MonoBehaviour {
 
     private static IEnumerator StartQuery(string query,Action<string> callBack)
     {
-        var headers = new Dictionary<string,string>();
-        headers.Add("Authorization", "Bearer "+User.authorization);
 
 
         UnityWebRequest webRequest = UnityWebRequest.Get(query);
+        webRequest.SetRequestHeader("Authorization", "Bearer " + User.authorization);
         yield return webRequest.Send();
 
         if (!webRequest.isError)
@@ -120,25 +119,30 @@ public class PhpQuery : MonoBehaviour {
             Debug.Log(webRequest.error);
         }
 
-        /* WWW www = new WWW(query,null,headers);
-
-         yield return www;
-         if(www.error != null)
-         {
-             print("ERROR!");
-         }else
-         {
-             if (www.text.Contains("error"))
-             {
-                 Error e = JsonUtility.FromJson<ErrorMsg>(www.text).error;
-                 Debug.LogError(e.developerMessage);
-             }else {
-                 callBack(www.text);
-             }
-         }
-
-         */
+      
     }
+
+    public static void SendQueryResponse(string url, string jsonData, Action<UnityWebRequest> act)
+    {
+        instance.StartCoroutine(SC_SendQueryResponse(url,jsonData, act));
+    }
+
+    private static IEnumerator SC_SendQueryResponse(string url,string jsonData,Action<UnityWebRequest>act)
+    {
+        var jsonString = jsonData;
+
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonString);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        request.Send();
+        yield return new WaitUntil(() => request.isDone);
+
+        act(request);
+    }
+
 
     private static IEnumerator StartQuery(string query, string body)
     {
@@ -161,32 +165,4 @@ public class PhpQuery : MonoBehaviour {
 
     }
 
-
-
-    public static void SendQueryContacto(string body)
-    {
-        //instance.StartCoroutine(StartQuery("api.nextcode.ml/users", ""));
-
-        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/msjs");
-        httpWebRequest.ContentType = "application/json";
-        httpWebRequest.Method = "POST";
-        httpWebRequest.Headers.Add("Authentication", "Bearer " + User.authorization);
-
-        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-        {
-            string json = body;
-            streamWriter.Write(json);
-            streamWriter.Flush();
-            streamWriter.Close();
-        }
-
-        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-        {
-            var result = streamReader.ReadToEnd();
-        }
-
-        print("TERMINE! SendQueryContacto");
-
-    }
 }
