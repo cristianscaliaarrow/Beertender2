@@ -26,6 +26,11 @@ public class PhpQuery : MonoBehaviour {
         instance.StartCoroutine(StartQuery("http://api.nextcode.ml/params/4", callBack));
     }
 
+    internal static void GetHash(string username,string hash,int first,Action<string> callBack)
+    {
+        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/params/4", callBack));
+    }
+
     #region "Users"
     public static void GetUsers(Action<string> callBack)
     {
@@ -99,11 +104,10 @@ public class PhpQuery : MonoBehaviour {
 
     private static IEnumerator StartQuery(string query,Action<string> callBack)
     {
-        var headers = new Dictionary<string,string>();
-        headers.Add("Authorization", "Bearer "+User.authorization);
 
 
         UnityWebRequest webRequest = UnityWebRequest.Get(query);
+        webRequest.SetRequestHeader("Authorization", "Bearer " + User.authorization);
         yield return webRequest.Send();
 
         if (!webRequest.isError)
@@ -115,31 +119,34 @@ public class PhpQuery : MonoBehaviour {
             Debug.Log(webRequest.error);
         }
 
-        /* WWW www = new WWW(query,null,headers);
-
-         yield return www;
-         if(www.error != null)
-         {
-             print("ERROR!");
-         }else
-         {
-             if (www.text.Contains("error"))
-             {
-                 Error e = JsonUtility.FromJson<ErrorMsg>(www.text).error;
-                 Debug.LogError(e.developerMessage);
-             }else {
-                 callBack(www.text);
-             }
-         }
-
-         */
+      
     }
+
+    public static void SendQueryResponse(string url, string jsonData, Action<UnityWebRequest> act)
+    {
+        instance.StartCoroutine(SC_SendQueryResponse(url,jsonData, act));
+    }
+
+    private static IEnumerator SC_SendQueryResponse(string url,string jsonData,Action<UnityWebRequest>act)
+    {
+        var jsonString = jsonData;
+
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonString);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        request.Send();
+        yield return new WaitUntil(() => request.isDone);
+
+        act(request);
+    }
+
 
     private static IEnumerator StartQuery(string query, string body)
     {
-        var headers = new Dictionary<string, string>();
-        headers.Add("Authorization", "Bearer " + User.authorization);
-
+      
         UnityWebRequest webRequest;
         byte[] bytes = Encoding.UTF8.GetBytes(body);
         webRequest = UnityWebRequest.Put(query, bytes);
@@ -157,4 +164,5 @@ public class PhpQuery : MonoBehaviour {
         }
 
     }
+
 }

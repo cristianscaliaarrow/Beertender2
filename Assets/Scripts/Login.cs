@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class Login : MonoBehaviour {
@@ -26,6 +27,8 @@ public class Login : MonoBehaviour {
     public Image icoUserNavigator;
     public Text txtUserNavigator;
 
+    public InputField txtNombreWritecontacto;
+    public InputField txtMailWritecontacto;
     Shop u;
 
     void Start () {
@@ -34,7 +37,22 @@ public class Login : MonoBehaviour {
 
     public void BTN_Ingresar()
     {
-        PhpQuery.GetUser(int.Parse(txtUser.text), Algo);
+        var jsonString = "{\"data\": {\"user\": \""+txtUser.text+"\",\"hash\": \""+SHA512(SHA512(txtPassword.text) +GetDate())+"\"}}";
+        PhpQuery.SendQueryResponse("http://api.nextcode.ml/login", jsonString, OnResultLogin);
+    }
+
+    private void OnResultLogin(UnityWebRequest obj)
+    {
+        if(obj.responseCode == 200)
+        {
+            User.authorization = obj.downloadHandler.text;
+            print("LOK OK!" + obj.downloadHandler.text);
+            PhpQuery.GetUser(11, Algo);
+        }
+        else
+        {
+            print("ERRROR " + obj.error);
+        }
     }
 
     private void Algo(string result)
@@ -62,6 +80,8 @@ public class Login : MonoBehaviour {
         instance.puntosOwnerManager.text = "TENÉS <size=70> " + debugUser.total_pts + " </size> PUNTOS";
         instance.puntosStaff.text = "TENÉS <size=55> " + debugUser.total_pts + " </size> PUNTOS";
         instance.registrosStaff.text = "HICISTE <size=55> " + 50 + " </size> REGISTROS";
+        instance.txtNombreWritecontacto.text = debugUser.firstName;
+        instance.txtMailWritecontacto.text = debugUser.email;
     }
 
 
@@ -86,7 +106,7 @@ public class Login : MonoBehaviour {
         var www = new WWW(url);
         yield return www;
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("POKE " + path);
+    
         var texture = www.texture;
         if (texture == null)
         {
@@ -98,5 +118,25 @@ public class Login : MonoBehaviour {
 
         output.transform.eulerAngles = new Vector3(0, 0, -90);
         output.sprite = Sprite.Create((Texture2D)texture, new Rect(0, 0, texture.width, texture.height), Vector3.one / 2);
+    }
+
+
+    private string GetDate()
+    {
+        return System.DateTime.Now.ToString("yyyy-MM-dd");
+    }
+
+    public string SHA512(string input)
+    {
+        var bytes = System.Text.Encoding.UTF8.GetBytes(input);
+        using (var hash = System.Security.Cryptography.SHA512.Create())
+        {
+            var hashedInputBytes = hash.ComputeHash(bytes);
+
+            var hashedInputStringBuilder = new System.Text.StringBuilder(128);
+            foreach (var b in hashedInputBytes)
+                hashedInputStringBuilder.Append(b.ToString("X2"));
+            return hashedInputStringBuilder.ToString().ToLower();
+        }
     }
 }

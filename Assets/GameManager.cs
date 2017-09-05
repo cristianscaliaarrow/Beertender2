@@ -27,13 +27,16 @@ public class GameManager : MonoBehaviour {
     {
         var jsonString = "{\"data\": {\"user_id\": \"" + Login.debugUser.id + "\",\"subject\": \"" + tema + "\",\"message\": \"" + message + "\",\"from\": \"" + correo + "\"}}";
 
-        var request = new UnityWebRequest("http://api.nextcode.ml/msjs", "POST");
+        UnityWebRequest request = new UnityWebRequest("http://api.nextcode.ml/msjs", "POST");
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonString);
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
+
         PanelResult.ShowMsg("Enviando...",2,()=>GameManager.instance.popUpGraciasPorEnviar.BTN_VisiblePopUpContactar(true));
-        yield return request.Send();
+
+        request.Send();
+        yield return new WaitUntil(() => request.isDone);
 
         if (request.responseCode == 200)
             PanelResult.ShowMsg("El mensaje se envió correctamente!", 2);
