@@ -16,9 +16,11 @@ public class Navigator : MonoBehaviour {
     public GameObject panelContacto;
     public GameObject panelHome;
 
+    public static bool block;
 
     public void TurnOffAll()
     {
+        if (block) return;
         ranking.Toggle(false);
         premios.Toggle(false);
         beertender.Toggle(false);
@@ -32,6 +34,7 @@ public class Navigator : MonoBehaviour {
 
     public void BTN_Ranking()
     {
+        if (block) return;
         ranking.Toggle(true);
         panelRanking.SetActive(true);
         
@@ -39,24 +42,28 @@ public class Navigator : MonoBehaviour {
 
     public void BTN_Premios()
     {
+        if (block) return;
         premios.Toggle(true);
         panelPremios.SetActive(true);
     }
 
     public void BTN_Beertender()
     {
+        if (block) return;
         beertender.Toggle(true);
         panelBeertender.SetActive(true);
     }
 
     public void BTN_Contacto()
     {
+        if (block) return;
         contacto.Toggle(true);
         panelContacto.SetActive(true);
     }
 
     public void BTN_Home()
     {
+        if (block) return;
         panelHome.SetActive(true);
     }
 

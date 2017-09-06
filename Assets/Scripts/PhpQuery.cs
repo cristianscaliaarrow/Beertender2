@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class PhpQuery : MonoBehaviour {
     public static PhpQuery instance;
-    public static string url = "http://api.nextcode.ml/";
+    public static string url = "http://api.beer-tender.com/";
     void Awake()
     {
         instance = this;

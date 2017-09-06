@@ -17,6 +17,7 @@ public class StaffPremios : MonoBehaviour {
     private void Start()
     {
         PhpQuery.GetPrizeStaff(LoadPrices);
+        Navigator.block = true;
     }
 
 
@@ -24,14 +25,12 @@ public class StaffPremios : MonoBehaviour {
     {
         premios = JsonParser<List<PrizeStaff>>.GetObject(result);
         int i = 0;
-      
         foreach (var item in premios)
         {
             GameObject go = Instantiate(prefabPrize);
             go.name = "PrizeStaff (" + i++ + ")";
             go.transform.SetParent(panelLayout.transform);
             go.transform.localScale = Vector3.one;
-           
             GameObject.Find(go.name + "/txtTitle").GetComponent<Text>().text = item.name;
             PrizeStaff itemPrize = item;
             LoadImagePrize(item, GameObject.Find(go.name + "/Mask/prizeImage").GetComponent<Image>());
@@ -48,6 +47,7 @@ public class StaffPremios : MonoBehaviour {
                 goEvent.AddComponent<EventTrigger>().triggers.Add(onEntry);
             }
         }
+        Navigator.block = false;
     }
 
     private void LoadImagePrize(PrizeStaff prize,Image img)
@@ -92,7 +92,7 @@ public class StaffPremios : MonoBehaviour {
         {
             if (!string.IsNullOrEmpty(www.error))
             {
-                print("ERROR " + prize.name);
+                print("POKE ERROR Staff Premio GetImageFrom" + prize.name);
             }
             else
             {

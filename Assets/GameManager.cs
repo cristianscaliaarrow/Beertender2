@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour {
     {
         var jsonString = "{\"data\": {\"user_id\": \"" + Login.debugUser.id + "\",\"subject\": \"" + tema + "\",\"message\": \"" + message + "\",\"from\": \"" + correo + "\"}}";
 
-        UnityWebRequest request = new UnityWebRequest("http://api.nextcode.ml/msjs", "POST");
+        UnityWebRequest request = new UnityWebRequest(PhpQuery.url+"msjs", "POST");
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonString);
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();

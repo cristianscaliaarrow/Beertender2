@@ -17,7 +17,7 @@ public class PanelRanking : MonoBehaviour {
     private void OnGeted(string obj)
     {
         List<Shop> list = JsonParser<List<Shop>>.GetObject(obj);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i<5 && i < list.Count; i++)
         {
             Shop s  = list[i];
             rankingGos[i].name.text = s.name;
@@ -57,7 +57,7 @@ public class PanelRanking : MonoBehaviour {
         {
             if (!string.IsNullOrEmpty(www.error))
             {
-                print("ERROR");
+                print("POKE ERROR Ranking GetImageFrom");
             }
             else
             {
