@@ -38,21 +38,32 @@ public class Login : MonoBehaviour {
     public void BTN_Ingresar()
     {
         var jsonString = "{\"data\": {\"user\": \""+txtUser.text+"\",\"hash\": \""+SHA512(SHA512(txtPassword.text) +GetDate())+"\"}}";
-        PhpQuery.SendQueryResponse("http://api.nextcode.ml/login", jsonString, OnResultLogin);
+        PhpQuery.SendQueryResponse(PhpQuery.url+"login", jsonString, OnResultLogin);
     }
 
     private void OnResultLogin(UnityWebRequest obj)
     {
         if(obj.responseCode == 200)
         {
-            User.authorization = obj.downloadHandler.text;
-            print("LOK OK!" + obj.downloadHandler.text);
-            PhpQuery.GetUser(11, Algo);
+            print(obj.downloadHandler.text);
+            HashLogin hl = JsonParser<HashLogin>.GetObject(obj.downloadHandler.text);
+            if (hl!=null)
+            {
+                print("OK");
+            }
+            User.authorization = hl.token;
+            PhpQuery.GetUser(int.Parse(hl.user_id), Algo);
         }
         else
         {
-            print("ERRROR " + obj.error);
+            ErrorGet error = JsonUtility.FromJson<ErrorGet>(obj.downloadHandler.text);
+            PanelResult.ShowMsg(error.error,2,nohacernada);
         }
+    }
+
+    private void nohacernada()
+    {
+        //throw new NotImplementedException();
     }
 
     private void Algo(string result)
@@ -139,4 +150,17 @@ public class Login : MonoBehaviour {
             return hashedInputStringBuilder.ToString().ToLower();
         }
     }
+}
+
+[System.Serializable]
+public class HashLogin
+{
+    public string user_id;
+    public string token;
+}
+
+[System.Serializable]
+public class ErrorGet
+{
+    public string error;
 }

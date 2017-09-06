@@ -31,6 +31,7 @@ public class StaffPremios : MonoBehaviour {
             go.name = "PrizeStaff (" + i++ + ")";
             go.transform.SetParent(panelLayout.transform);
             go.transform.localScale = Vector3.one;
+           
             GameObject.Find(go.name + "/txtTitle").GetComponent<Text>().text = item.name;
             PrizeStaff itemPrize = item;
             LoadImagePrize(item, GameObject.Find(go.name + "/Mask/prizeImage").GetComponent<Image>());
