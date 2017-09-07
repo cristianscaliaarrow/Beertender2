@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class PhpQuery : MonoBehaviour {
     public static PhpQuery instance;
-
+    public static string url = "http://api.beer-tender.com/";
     void Awake()
     {
         instance = this;
@@ -18,59 +18,59 @@ public class PhpQuery : MonoBehaviour {
 
     public static void GetPrizeStaff(Action<string> callBack)
     {
-        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/prizestaff/",callBack));
+        instance.StartCoroutine(StartQuery(url +"prizestaff/", callBack));
     }
 
     internal static void GetTOS(Action<string> callBack)
     {
-        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/params/4", callBack));
+        instance.StartCoroutine(StartQuery(url + "params/4", callBack));
     }
 
     internal static void GetHash(string username,string hash,int first,Action<string> callBack)
     {
-        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/params/4", callBack));
+        instance.StartCoroutine(StartQuery(url + "params/4", callBack));
     }
 
     #region "Users"
     public static void GetUsers(Action<string> callBack)
     {
-        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/users", callBack));
+        instance.StartCoroutine(StartQuery(url + "users", callBack));
     }
 
     public static void GetUser(int id , Action<string> callBack)
     {
-        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/users/" + id, callBack));
+        instance.StartCoroutine(StartQuery(url + "users/" + id, callBack));
     }
     #endregion
 
     #region "Shops"
     public static void GetShops(Action<string> callBack)
     {
-        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/shops", callBack));
+        instance.StartCoroutine(StartQuery(PhpQuery.url + "shops", callBack));
     }
 
     public static void GetShop(int id, Action<string> callBack)
     {
-        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/shops/" + id, callBack));
+        instance.StartCoroutine(StartQuery(PhpQuery.url + "shops/" + id, callBack));
     }
 
     #endregion
 
     public static void EditUser(int id)
     {
-        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/users/" + id, "{\"data\": {\"firstName\":\"cambio\"}}"));
+        instance.StartCoroutine(StartQuery(url + "users/" + id, "{\"data\": {\"firstName\":\"cambio\"}}"));
     }
 
     internal static void GetMessages(Action<string> callBack)
     {
-        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/messages/", callBack));
+        instance.StartCoroutine(StartQuery(url + "messages/", callBack));
     }
 
     public static void AddUser()
     {
         //instance.StartCoroutine(StartQuery("api.nextcode.ml/users", ""));
 
-        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/users");
+        var httpWebRequest = (HttpWebRequest)WebRequest.Create(url + "users");
         httpWebRequest.ContentType = "application/json";
         httpWebRequest.Method = "POST";
         httpWebRequest.Headers.Add("Authentication", "Bearer "+User.authorization);
@@ -99,7 +99,7 @@ public class PhpQuery : MonoBehaviour {
 
     public static void GetRanking(Action<string> callBack)
     {
-        instance.StartCoroutine(StartQuery("http://api.nextcode.ml/rankings/shop/", callBack));
+        instance.StartCoroutine(StartQuery(url + "rankings/shop/", callBack));
     }
 
     private static IEnumerator StartQuery(string query,Action<string> callBack)

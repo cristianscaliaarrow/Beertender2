@@ -31,7 +31,7 @@ public class WriteQuery : MonoBehaviour {
 
     public IEnumerator SendContact(string nombre,string correo,string tema,string message)
     {
-        var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://api.nextcode.ml/msjs");
+        var httpWebRequest = (HttpWebRequest)WebRequest.Create(PhpQuery.url + "msjs");
         httpWebRequest.ContentType = "application/json";
         httpWebRequest.Method = "POST";
         httpWebRequest.Headers.Add("Authentication", "Bearer " + User.authorization);

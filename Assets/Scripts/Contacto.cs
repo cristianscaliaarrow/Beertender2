@@ -17,8 +17,6 @@ public class Contacto : MonoBehaviour {
     public GameObject panelContactoWriteQuery;
     public GameObject panelContactoReadMessage;
 
-
-
     float scaleOff = 0.9f;
 
     private void Start()
@@ -29,7 +27,7 @@ public class Contacto : MonoBehaviour {
 
     public void OnEnable()
     {
-        background.sprite = newBackgroundImage;
+        //background.sprite = newBackgroundImage;
     }
   
     private void OnDisable()
