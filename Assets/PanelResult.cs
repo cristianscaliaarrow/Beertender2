@@ -16,7 +16,7 @@ public class PanelResult : MonoBehaviour {
         gameObject.SetActive(false);
 	}
 
-    public static void ShowMsg(string msg , int time, Action callback = null)
+    public static void ShowMsg(string msg , float time, Action callback = null)
     {
         instance.message.text = msg;
         instance.gameObject.SetActive(true);
