@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class PopupChangePrize : MonoBehaviour {
@@ -33,7 +34,14 @@ public class PopupChangePrize : MonoBehaviour {
         if (int.Parse(input.text) <= 0) { PanelResult.ShowMsg("Error al ingresar el monto!", 1); return; }
         if (Login.debugUser.total_pts*2 >= int.Parse(input.text)) 
         {
-            StartCoroutine(SendBuyPrize());
+            PanelResult.ShowMsg("Espere...", 2f);
+            int pesos = int.Parse(input.text);
+            float decimals = (float.Parse(input.text) / 2 - (int)int.Parse(input.text) / 2);
+            int discount = (int)(pesos / 2 + ((decimals > 0) ? 1 : 0));
+            Login.debugUser.total_pts -= discount;
+            Login.UpdateGUI();
+            PhpQuery.SendQueryResponse(PhpQuery.url + "userprize", "{ \"data\": { \"user_id\": \"" + Login.debugUser.id + "\", \"prize_staff_id\": \"" + prize.id + "\", \"pts_used\": \"" + discount + "\" }}", OnRequest);
+
         }
         else
         {
@@ -43,14 +51,22 @@ public class PopupChangePrize : MonoBehaviour {
        
     }
 
+    private void OnRequest(UnityWebRequest obj)
+    {
+        if(obj.responseCode == 200)
+        {
+            PanelResult.ShowMsg("La operacoin se realizo correctamente.", 2);
+        }
+        else
+        {
+            PanelResult.ShowMsg("La operacoin Falló!. "+obj.downloadHandler.text, 2);
+        }
+    }
+
     private IEnumerator SendBuyPrize()
     {
         PanelResult.ShowMsg("Espere...",2,() => PanelResult.ShowMsg("La operacoin se realizo correctamente.", 2,()=> {
-            int pesos = int.Parse(input.text);
-            float decimals = (float.Parse(input.text) /2 - (int)int.Parse(input.text)/2);
-            int discount = (int)(pesos / 2 + ((decimals > 0) ? 1 : 0));
-            print(pesos + " " + decimals + " " + discount);
-            Login.debugUser.total_pts -= discount;
+            
             Login.UpdateGUI();
             BTN_ClosePopUp();
         }));
