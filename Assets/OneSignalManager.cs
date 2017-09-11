@@ -10,7 +10,7 @@ public class OneSignalManager : MonoBehaviour {
 
     void Start()
     {
-        OneSignal.StartInit("fa5c60e2-ee41-48fa-8835-a84b37b3dec5").HandleNotificationOpened(HandleNotificationOpened).HandleNotificationReceived(HandleNotificationReceived).EndInit();
+        OneSignal.StartInit("840b0c45-e9cc-47d7-8b40-94f703931e50").HandleNotificationOpened(HandleNotificationOpened).HandleNotificationReceived(HandleNotificationReceived).EndInit();
     }
 
    
