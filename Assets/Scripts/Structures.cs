@@ -19,6 +19,16 @@ public class JsonParser<T>
     }
 }
 
+[System.Serializable]
+public class DatesShop
+{
+    public long ini_month1;
+    public long ini_month2;
+    public long ini_month3;
+    public long end_month1;
+    public long end_month2;
+    public long end_month3;
+}
 
 [System.Serializable]
 public class User
@@ -60,6 +70,33 @@ public class Error
     public string message;
     public string developerMessage;
     public string moreInfo; 
+}
+
+[System.Serializable]
+public class Point
+{
+    public int user_id;
+    public string motive;
+    public int amount;
+    public int total_motive_pts;
+
+    public bool IsRegistro { get { return motive == "registro"; } }
+    public bool IsDisponibility { get { return motive == "disponibilidad"; } }
+    public bool IsVolume { get { return motive == "volumen"; } }
+}
+
+[System.Serializable]
+public class ShopScore
+{
+    public List<Point> mes1;
+    public List<Point> mes2;
+    public List<Point> mes3;
+}
+
+[System.Serializable]
+public class UserPoints
+{
+    public List<Point> points;
 }
 
 [System.Serializable]

@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -31,6 +33,8 @@ public class Login : MonoBehaviour {
     public InputField txtMailWritecontacto;
     Shop u;
 
+    public string register;
+
     void Start () {
         instance = this;
 	}
@@ -52,7 +56,7 @@ public class Login : MonoBehaviour {
                 print("OK");
             }
             User.authorization = hl.token;
-            PhpQuery.GetUser(int.Parse(hl.user_id), Algo);
+            PhpQuery.GetUser(int.Parse(hl.user_id), OnLoginOK);
         }
         else
         {
@@ -66,11 +70,25 @@ public class Login : MonoBehaviour {
         //throw new NotImplementedException();
     }
 
-    private void Algo(string result)
+    private void OnLoginOK(string result)
     {
         User u = JsonUtility.FromJson<JsonParser<User>>(result).data;
         debugUser = u;
+        PhpQuery.GetUserRegisters(OnGetUserRegisters);
         PhpQuery.GetShop(u.shop_id, OnGetShopInfo);
+    }
+
+    public static int registers = 0;
+
+    private void OnGetUserRegisters(string obj)
+    {
+        obj = obj.Replace("SUM(amount)", "amount");
+        obj = obj.Replace("SUM(total_motive_pts)", "total_motive_pts");
+        List<Point> points = JsonParser<List<Point>>.GetObject(obj);
+        Analytics.CustomEvent("Login");
+        var l = points.Where((p) => p.IsRegistro).First();
+        registers = l.amount;
+        UpdateGUI();
     }
 
     public static void UpdateGUI() {
@@ -90,9 +108,17 @@ public class Login : MonoBehaviour {
         instance.premiosStaffPuntos.text = "TENÉS <size=70> " + debugUser.total_pts + " </size> PUNTOS";
         instance.puntosOwnerManager.text = "TENÉS <size=70> " + debugUser.total_pts + " </size> PUNTOS";
         instance.puntosStaff.text = "TENÉS <size=55> " + debugUser.total_pts + " </size> PUNTOS";
-        instance.registrosStaff.text = "HICISTE <size=55> " + 50 + " </size> REGISTROS";
+        instance.registrosStaff.text = "HICISTE <size=55> " + registers + " </size> REGISTROS";
         instance.txtNombreWritecontacto.text = debugUser.firstName;
         instance.txtMailWritecontacto.text = debugUser.email;
+
+
+    }
+
+    public static string GetRegistersDoit()
+    {
+        if (debugUser.total_used_pts == 0) return "0";
+        return ""+(int)((debugUser.total_pts + debugUser.total_used_pts) / 20);
     }
 
 
@@ -104,11 +130,29 @@ public class Login : MonoBehaviour {
             Home.instance.gameObject.SetActive(true);
             Home.instance.BTN_ShowHome();
             gameObject.SetActive(false);
+            //PhpQuery.GetDates(DateUpdated); TODO
             UpdateGUI();
         }
         catch
         {
+
         }
+    }
+
+    private void DateUpdated(string obj)
+    {
+        DatesShop dates = JsonParser<DatesShop>.GetObject(obj);
+        PhpQuery.GetShopRegisters(u.id, dates.ini_month1, dates.end_month1, OnGetRegisterShop);
+        PhpQuery.GetShopRegisters(u.id, dates.ini_month2, dates.end_month2, OnGetRegisterShop);
+        PhpQuery.GetShopRegisters(u.id, dates.ini_month3, dates.end_month3, OnGetRegisterShop);
+    }
+
+    private void OnGetRegisterShop(string obj)
+    {
+        obj = obj.Replace("SUM(amount)", "amount");
+        obj = obj.Replace("SUM(total_motive_pts)", "total_motive_pts");
+        List<Point> points = JsonParser<List<Point>>.GetObject(obj);
+
     }
 
     private IEnumerator LoadImage(string path, Image output)

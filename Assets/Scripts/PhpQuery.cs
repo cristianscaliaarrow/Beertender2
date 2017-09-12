@@ -50,6 +50,16 @@ public class PhpQuery : MonoBehaviour {
         instance.StartCoroutine(StartQuery(PhpQuery.url + "shops", callBack));
     }
 
+    public static void GetShopRegisters(int shopid,long ini, long fin, Action<string> callBack)
+    {
+        instance.StartCoroutine(StartQuery(PhpQuery.url + "shoppoints/" + shopid + "/"+ ini +"/"+ fin, callBack));
+    }
+
+    public static void GetUserRegisters(Action<string> callBack)
+    {
+        instance.StartCoroutine(StartQuery(PhpQuery.url + "userpoints/" + Login.debugUser.id, callBack));
+    }
+
     public static void GetShop(int id, Action<string> callBack)
     {
         instance.StartCoroutine(StartQuery(PhpQuery.url + "shops/" + id, callBack));
@@ -103,9 +113,19 @@ public class PhpQuery : MonoBehaviour {
         instance.StartCoroutine(StartQuery(url + "rankings/shop/", callBack));
     }
 
+    public static void GetDates(Action<string> callBack)
+    {
+        instance.StartCoroutine(StartQuery(url + "Dates/", callBack));
+    }
+
+    internal static void GetShopRegisters(int id, object onGetRegisterShop)
+    {
+        throw new NotImplementedException();
+    }
+
     private static IEnumerator StartQuery(string query,Action<string> callBack)
     {
-
+        //PhpQuery.GetShopRegisters(u.id,)
 
         UnityWebRequest webRequest = UnityWebRequest.Get(query);
         webRequest.SetRequestHeader("Authorization", "Bearer " + User.authorization);
@@ -122,6 +142,8 @@ public class PhpQuery : MonoBehaviour {
 
       
     }
+
+    
 
     public static void SendQueryResponse(string url, string jsonData, Action<UnityWebRequest> act)
     {
