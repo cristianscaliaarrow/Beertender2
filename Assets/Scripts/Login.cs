@@ -130,7 +130,7 @@ public class Login : MonoBehaviour {
             Home.instance.gameObject.SetActive(true);
             Home.instance.BTN_ShowHome();
             gameObject.SetActive(false);
-            //PhpQuery.GetDates(DateUpdated); TODO
+            PhpQuery.GetDates(OnDateUpdate); 
             UpdateGUI();
         }
         catch
@@ -139,21 +139,64 @@ public class Login : MonoBehaviour {
         }
     }
 
-    private void DateUpdated(string obj)
+    private void OnDateUpdate(string obj)
     {
-        DatesShop dates = JsonParser<DatesShop>.GetObject(obj);
-        PhpQuery.GetShopRegisters(u.id, dates.ini_month1, dates.end_month1, OnGetRegisterShop);
-        PhpQuery.GetShopRegisters(u.id, dates.ini_month2, dates.end_month2, OnGetRegisterShop);
-        PhpQuery.GetShopRegisters(u.id, dates.ini_month3, dates.end_month3, OnGetRegisterShop);
+        int Septiembre = 0;
+        int Octubre = 1;
+        int Noviembre = 2;
+        obj = obj.Replace("start-date", "startdate");
+        obj = obj.Replace("end-date", "enddate");
+        obj = obj.Replace("\\", "");
+        obj = obj.Replace("\"[", "[");
+        obj = obj.Replace("]\"", "]");
+        DateServer dates = JsonParser<DateServer>.GetObject(obj);
+        PhpQuery.GetShopRegisters(u.id, dates.value[Septiembre].startdate, dates.value[Septiembre].enddate, OnGetRegisterShopS);
+        PhpQuery.GetShopRegisters(u.id, dates.value[Octubre].startdate, dates.value[Octubre].enddate, OnGetRegisterShopO);
+        PhpQuery.GetShopRegisters(u.id, dates.value[Noviembre].startdate, dates.value[Noviembre].enddate, OnGetRegisterShopN);
     }
 
-    private void OnGetRegisterShop(string obj)
+    private void OnGetRegisterShopN(string obj)
     {
         obj = obj.Replace("SUM(amount)", "amount");
         obj = obj.Replace("SUM(total_motive_pts)", "total_motive_pts");
-        List<Point> points = JsonParser<List<Point>>.GetObject(obj);
+        try
+        {
+            PopUpHistory.m3 = JsonParser<List<Point>>.GetObject(obj);
+        }
+        catch
+        {
 
+        }
     }
+
+    private void OnGetRegisterShopO(string obj)
+    {
+        obj = obj.Replace("SUM(amount)", "amount");
+        obj = obj.Replace("SUM(total_motive_pts)", "total_motive_pts");
+        try
+        {
+            PopUpHistory.m2 = JsonParser<List<Point>>.GetObject(obj);
+        }
+        catch
+        {
+
+        }
+    }
+
+    private void OnGetRegisterShopS(string obj)
+    {
+        obj = obj.Replace("SUM(amount)", "amount");
+        obj = obj.Replace("SUM(total_motive_pts)", "total_motive_pts");
+        try
+        {
+            PopUpHistory.m1 = JsonParser<List<Point>>.GetObject(obj);
+        }
+        catch
+        {
+
+        }
+    }
+
 
     private IEnumerator LoadImage(string path, Image output)
     {

@@ -6,8 +6,8 @@ public class OptionMM : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        GetComponent<Login>().txtUser.text = "stafftest@gmail.com";
-        GetComponent<Login>().txtPassword.text = "33333333";
+        GetComponent<Login>().txtUser.text = "managertest@gmail.com";
+        GetComponent<Login>().txtPassword.text = "22222222";
     }
 	
 	// Update is called once per frame

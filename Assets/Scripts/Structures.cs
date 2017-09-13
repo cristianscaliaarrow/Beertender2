@@ -57,6 +57,26 @@ public class User
 }
 
 [System.Serializable]
+public class DateServer
+{
+    public int id;
+    public string key;
+    public List<SingleDate> value;
+    public string type;
+    public string updated;
+    //"value":"[{\"id\":1,\"name\":\"Septiembre\",\"start-date\":\"1504224000\",\"end-date\":\"1506815999\"},{\"id\":2,\"name\":\"Octubre\",\"start-date\":\"1506816000\",\"end-date\":\"1509483599\"},{\"id\":3,\"name\":\"Per\u00edodo 3\",\"start-date\":\"1509494400\",\"end-date\":\"1512086399\"}]","
+}
+
+[System.Serializable]
+public class SingleDate
+{
+    public int id;
+    public string name;
+    public long startdate;
+    public long enddate;
+}
+
+[System.Serializable]
 public class ErrorMsg
 {
     public Error error;

@@ -52,6 +52,7 @@ public class PhpQuery : MonoBehaviour {
 
     public static void GetShopRegisters(int shopid,long ini, long fin, Action<string> callBack)
     {
+        print(PhpQuery.url + "shoppoints/" + shopid + "/" + ini + "/" + fin);
         instance.StartCoroutine(StartQuery(PhpQuery.url + "shoppoints/" + shopid + "/"+ ini +"/"+ fin, callBack));
     }
 
@@ -100,7 +101,6 @@ public class PhpQuery : MonoBehaviour {
             var result = streamReader.ReadToEnd();
         }
 
-
     }
 
     public static void SendContact(string nombre, string correo, string tema, string message)
@@ -115,12 +115,12 @@ public class PhpQuery : MonoBehaviour {
 
     public static void GetDates(Action<string> callBack)
     {
-        instance.StartCoroutine(StartQuery(url + "Dates/", callBack));
+        instance.StartCoroutine(StartQuery(url + "params/contest_periods/", callBack));
     }
 
     internal static void GetShopRegisters(int id, object onGetRegisterShop)
     {
-        throw new NotImplementedException();
+        
     }
 
     private static IEnumerator StartQuery(string query,Action<string> callBack)
